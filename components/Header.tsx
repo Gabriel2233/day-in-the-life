@@ -1,11 +1,13 @@
-import { Flex, Text } from "@chakra-ui/core";
+import { Flex, Icon } from "@chakra-ui/core";
 import { ReactNode } from "react";
+
+import { BsFilePost } from "react-icons/bs";
 
 export const Header = ({ children }: { children: ReactNode }) => {
   return (
     <Flex w="full" align="center" justify="space-between" background="white">
       <Flex align="center">
-        <Text p={4}>Logo Here</Text>
+        <Icon as={BsFilePost} mt={6} mx={6} fontSize="48px" />
       </Flex>
 
       <Flex align="center">{children}</Flex>

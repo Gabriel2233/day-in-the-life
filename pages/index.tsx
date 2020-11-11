@@ -1,18 +1,20 @@
-import { Button, Flex, Heading, useDisclosure } from "@chakra-ui/core";
-import { AuthModal } from "../components/AuthModal";
+import { Button, Flex, Heading, Text } from "@chakra-ui/core";
 import { Header } from "../components/Header";
 import { Layout } from "../components/Layout";
 import Typed from "typed.js";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function Home() {
-  const { onOpen, onClose, isOpen } = useDisclosure();
-
-  const same = "Are you up to ";
-
   useEffect(() => {
     let typed = new Typed(".element", {
-      strings: ["Find your new Hobby", "Find your new Carrer"],
+      strings: [
+        "Are you into Sports?",
+        "Are you into Programming?",
+        "Are you into Health?",
+        "Are you into Cooking?",
+        "Are you into Engineering?",
+      ],
       showCursor: false,
       loop: true,
       typeSpeed: 100,
@@ -24,22 +26,61 @@ export default function Home() {
   return (
     <Layout>
       <Header>
-        <Button
-          onClick={onOpen}
-          my={2}
-          mx={6}
-          bg="blue.500"
-          _hover={{ bg: "blue.400" }}
-          color="white"
-        >
-          Get Started
-        </Button>
+        <Link href="/login">
+          <Button
+            my={2}
+            mx={6}
+            bg="blue.500"
+            _hover={{ bg: "blue.400" }}
+            color="white"
+          >
+            Get Started
+          </Button>
+        </Link>
       </Header>
 
-      <AuthModal isOpen={isOpen} onClose={onClose} />
+      <Flex
+        my={"4rem"}
+        align="center"
+        justify="center"
+        flexDir="column"
+        w="full"
+      >
+        <Heading
+          textAlign="center"
+          className="element"
+          size="2xl"
+          w="full"
+          mt={20}
+          mb={4}
+          px={8}
+        ></Heading>
+        <Text
+          fontSize="1.2rem"
+          color="gray.800"
+          w="full"
+          px={8}
+          textAlign="center"
+        >
+          We can help you find your interests, hobbies and professional wills{" "}
+          <br />
+          doing what we all like, blogging
+        </Text>
 
-      <Flex w="full" align="center" justify="center" flexDir="column">
-        <Heading className="element" w="full"></Heading>
+        <Link href="/login">
+          <Button
+            mx={8}
+            my={8}
+            p={6}
+            borderWidth={2}
+            borderColor="blue.500"
+            borderRadius="8px"
+            color="blue.500"
+            bg="white"
+          >
+            Start the fun!
+          </Button>
+        </Link>
       </Flex>
     </Layout>
   );
