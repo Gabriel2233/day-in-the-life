@@ -1,6 +1,6 @@
 import { Button, Flex, Input, Textarea } from "@chakra-ui/core";
 
-export const PostCreationElement = () => {
+export const PostCreationElement = ({ register }: { register: any }) => {
   return (
     <Flex
       w="60%"
@@ -8,7 +8,9 @@ export const PostCreationElement = () => {
       justify="center"
       flexDir="column"
       background="white"
-      rounded="8px"
+      borderWidth={2}
+      borderColor="gray.500"
+      borderRadius="8px"
       p={8}
     >
       <Button
@@ -30,6 +32,8 @@ export const PostCreationElement = () => {
         _placeholder={{ color: "gray.600" }}
         _focus={{ outline: "none" }}
         my={8}
+        name="title"
+        ref={register}
       />
 
       <Input
@@ -37,17 +41,33 @@ export const PostCreationElement = () => {
         my={4}
         placeholder="Write four tags that match your post..."
         fontSize="1rem"
-        _placeholder={{ color: "gray.500" }}
+        _placeholder={{ color: "gray.600" }}
         _focus={{ outline: "none" }}
+        name="tags"
+        ref={register}
       />
+
+      <Button
+        bg="blue.500"
+        _hover={{ bg: "blue.600" }}
+        my={4}
+        rounded="4px"
+        color="white"
+        mx={2}
+      >
+        Upload an Image
+      </Button>
 
       <Textarea
         border={0}
         resize="none"
         overflowY="hidden"
         placeholder="Write your post here..."
+        _placeholder={{ color: "gray.600" }}
         _focus={{ outline: "none" }}
         my={4}
+        name="content"
+        ref={register}
       />
     </Flex>
   );

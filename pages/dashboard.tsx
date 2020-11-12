@@ -1,8 +1,9 @@
-import { Avatar, Button, Flex, Spinner, Text } from "@chakra-ui/core";
+import { Avatar, Button, Flex, Spinner } from "@chakra-ui/core";
 import { Header } from "../components/Header";
 import { Layout } from "../components/Layout";
 import { useAuth } from "../lib/auth";
 import Link from "next/link";
+import { SideMenu } from "../components/SideMenu";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -33,6 +34,18 @@ export default function Dashboard() {
           />
         </Link>
       </Header>
+
+      <Flex w="full" align="center" justify="center">
+        <SideMenu />
+
+        <Flex
+          w="80%"
+          align="center"
+          justify="center"
+          flexDir="column"
+          my={"4rem"}
+        ></Flex>
+      </Flex>
     </Layout>
   );
 }

@@ -9,6 +9,8 @@ export const LightLayout = ({ children }: { children: ReactNode }) => {
       justify="flex-start"
       backgroundColor="gray.100"
       flexDir="column"
+      mt={"4rem"}
+      minH="100vh"
     >
       {children}
     </Flex>
