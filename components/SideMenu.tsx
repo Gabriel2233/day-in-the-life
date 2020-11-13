@@ -22,8 +22,6 @@ export const SideMenu = () => {
       align="center"
       justify="start"
       flexDir="column"
-      borderRightWidth={2}
-      borderRightColor="gray.200"
     >
       <Button padding={4} rounded="4px" my={2} bg="transparent" w="full">
         <Icon as={HiHeart} color="red.500" mx={2} fontSize="24px" />

@@ -1,6 +1,11 @@
 import { Button, Flex, Input, Textarea } from "@chakra-ui/core";
+import { usePost } from "../contexts/PostContext";
+import { DropzoneArea } from "./DropzoneArea";
+import { FileInput } from "./FileInput";
 
-export const PostCreationElement = ({ register }: { register: any }) => {
+export const PostCreationElement = () => {
+  const { removeImage, selectedFileUrl, register } = usePost();
+
   return (
     <Flex
       w="60%"
@@ -13,18 +18,23 @@ export const PostCreationElement = ({ register }: { register: any }) => {
       borderRadius="8px"
       p={8}
     >
-      <Button
-        my={6}
-        mx={2}
-        p={4}
-        bg="white"
-        borderWidth={2}
-        borderColor="blue.500"
-        borderRadius="4px"
-        color="blue.500"
-      >
-        Add cover Image
-      </Button>
+      <Flex w="full" align="center" justify="start">
+        <DropzoneArea />
+
+        <Button
+          d={selectedFileUrl === "" ? "none" : "block"}
+          color="red.500"
+          borderColor="red.500"
+          borderWidth={2}
+          rounded="4px"
+          mx={6}
+          bg="white"
+          onClick={() => removeImage()}
+        >
+          Remove
+        </Button>
+      </Flex>
+
       <Input
         border={0}
         placeholder="Title Here"
@@ -47,16 +57,7 @@ export const PostCreationElement = ({ register }: { register: any }) => {
         ref={register}
       />
 
-      <Button
-        bg="blue.500"
-        _hover={{ bg: "blue.600" }}
-        my={4}
-        rounded="4px"
-        color="white"
-        mx={2}
-      >
-        Upload an Image
-      </Button>
+      <FileInput register={register} />
 
       <Textarea
         border={0}

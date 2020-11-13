@@ -5,27 +5,12 @@ import { Layout } from "../components/Layout";
 import { LightLayout } from "../components/LightLayout";
 import { PostCreationElement } from "../components/PostCreationElement";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-
-const validationSchema = yup.object().shape({
-  title: yup.string().required().min(8).max(33),
-  tags: yup.string().required(),
-  content: yup.string().required(),
-});
+import { usePost } from "../contexts/PostContext";
 
 export default function CreatePost() {
   const router = useRouter();
 
-  const { errors, handleSubmit, register } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
-
-  const createPost = (data) => {
-    console.log(data);
-  };
+  const { createPost, handleSubmit, errors } = usePost();
 
   return (
     <Layout>
@@ -38,7 +23,7 @@ export default function CreatePost() {
           <Heading size="lg">Create a new Post</Heading>
 
           <Link href="/post-guide">
-            <Button bg="white" rounded="4px" color="blue.500">
+            <Button bg="white" rounded="4px" color="black">
               Writing a good post
             </Button>
           </Link>
@@ -52,7 +37,7 @@ export default function CreatePost() {
           as="form"
           onSubmit={handleSubmit(createPost)}
         >
-          <PostCreationElement register={register} />
+          <PostCreationElement />
 
           <Button
             type="submit"
