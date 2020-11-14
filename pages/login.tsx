@@ -22,7 +22,7 @@ function Login() {
 
       <Flex
         w="full"
-        mt={"5rem"}
+        mt={"7rem"}
         align="center"
         justify="center"
         flexDir="column"
@@ -32,6 +32,7 @@ function Login() {
         </Heading>
 
         <Button
+          w="300px"
           onClick={() => signinWithFacebook("/dashboard")}
           p={8}
           backgroundColor="blue.600"
@@ -48,6 +49,7 @@ function Login() {
           Continue with Facebook
         </Button>
         <Button
+          w="300px"
           onClick={() => signinWithGoogle("/dashboard")}
           p={8}
           backgroundColor="white"

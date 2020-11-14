@@ -3,12 +3,13 @@ import {
   ReactNode,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from "react";
-import { useForm, FieldErrors, Ref } from "react-hook-form";
+import { useForm, FieldErrors } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import firebase from "../lib/firebase";
+import "firebase/storage";
 
 type FormValues = {
   title: string;
@@ -20,11 +21,12 @@ type IPostContext = {
   selectedFileUrl: string;
   onDrop(acceptedFiles: File[]): Promise<void>;
   removeImage(): void;
-  uploadImage(acceptedFiles: File[]): Promise<void>;
+  uploadImage(acceptedFiles: File[]): Promise<string>;
   createPost(data: FormValues): Promise<void>;
   errors: FieldErrors;
   handleSubmit(fn: (data: FormValues) => Promise<void>): any;
   register: any;
+  watchedImage: File[] | undefined;
 };
 
 const validationSchema = yup.object().shape({
@@ -37,11 +39,12 @@ const PostContext = createContext<IPostContext>({
   selectedFileUrl: "",
   onDrop: async () => {},
   removeImage: () => {},
-  uploadImage: async () => {},
+  uploadImage: async () => "",
   createPost: async () => {},
   errors: {},
   handleSubmit: () => {},
   register: null,
+  watchedImage: undefined,
 });
 
 export const PostContextProvider = ({ children }: { children: ReactNode }) => {
@@ -74,17 +77,14 @@ const useProvidePost = () => {
   };
 
   const uploadImage = async (acceptedFiles: File[]) => {
+    const storageRef = firebase.storage().ref();
+    const fieldRef = storageRef.child(acceptedFiles[0].name);
+
     try {
-      const file = acceptedFiles[0];
+      const res = await fieldRef.put(acceptedFiles[0]);
+      const storagedUrl = await res.ref.getDownloadURL();
 
-      const res = await fetch("/api/upload-image", {
-        method: "POST",
-        body: JSON.stringify(file),
-      });
-
-      const data = await res.json();
-
-      console.log(data);
+      return storagedUrl;
     } catch (err) {
       alert(err.message);
     }
@@ -99,6 +99,7 @@ const useProvidePost = () => {
     errors,
     handleSubmit,
     register,
+    watchedImage,
   };
 };
 

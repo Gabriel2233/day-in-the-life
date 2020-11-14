@@ -1,11 +1,18 @@
-import { Button, CloseButton, Flex, Heading } from "@chakra-ui/core";
+import {
+  Button,
+  CloseButton,
+  Flex,
+  Heading,
+  IconButton,
+} from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import { Header } from "../components/Header";
 import { Layout } from "../components/Layout";
 import { LightLayout } from "../components/LightLayout";
 import { PostCreationElement } from "../components/PostCreationElement";
-import Link from "next/link";
 import { usePost } from "../contexts/PostContext";
+
+import { BsQuestion } from "react-icons/bs";
 
 export default function CreatePost() {
   const router = useRouter();
@@ -22,11 +29,15 @@ export default function CreatePost() {
         <Flex w="full" align="center" justify="space-between" my={8} px={8}>
           <Heading size="lg">Create a new Post</Heading>
 
-          <Link href="/post-guide">
-            <Button bg="white" rounded="4px" color="black">
-              Writing a good post
-            </Button>
-          </Link>
+          <Button
+            bg="white"
+            rounded="4px"
+            color="blue.500"
+            borderWidth={2}
+            borderColor="blue.500"
+          >
+            Preview
+          </Button>
         </Flex>
 
         <Flex
@@ -39,20 +50,27 @@ export default function CreatePost() {
         >
           <PostCreationElement />
 
-          <Button
-            type="submit"
-            w="100px"
-            bg="blue.500"
-            _hover={{ bg: "blue.600" }}
-            p={5}
-            rounded="4px"
-            color="white"
-            d="flex"
-            alignSelf="flex-end"
-            m={10}
-          >
-            Post
-          </Button>
+          <Flex w="90%" align="center" justify="space-between" my={10}>
+            <IconButton
+              onClick={() => router.push("/post-guide")}
+              aria-label="Post Guide"
+              icon={BsQuestion}
+              bg="white"
+              borderWidth={2}
+              borderColor="gray.500"
+            />
+
+            <Button
+              type="submit"
+              w="100px"
+              bg="blue.500"
+              _hover={{ bg: "blue.600" }}
+              color="white"
+              d="flex"
+            >
+              Post
+            </Button>
+          </Flex>
         </Flex>
       </LightLayout>
     </Layout>

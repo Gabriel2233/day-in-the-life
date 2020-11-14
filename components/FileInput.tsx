@@ -1,12 +1,34 @@
 import { Flex, Input, StatLabel } from "@chakra-ui/core";
+import { useEffect, useState } from "react";
+import { usePost } from "../contexts/PostContext";
 
 export const FileInput = ({ register }: { register: any }) => {
+  const { uploadImage, watchedImage } = usePost();
+
+  const [uploadedImgUrl, setUploadedImgUrl] = useState<string>("");
+
+  const uploadNewContentImage = async () => {
+    try {
+      const res = await uploadImage(watchedImage);
+
+      setUploadedImgUrl(res);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  useEffect(() => {
+    if (watchedImage !== undefined) {
+      uploadNewContentImage();
+    }
+  }, [watchedImage]);
+
   return (
     <Flex>
       <Flex
-        flexDir="column"
         align="center"
         justify="center"
+        flexDir="column"
         width="full"
         mx={4}
         my={6}
@@ -18,9 +40,10 @@ export const FileInput = ({ register }: { register: any }) => {
           rounded="4px"
           color="white"
           p={3}
+          mr={8}
           fontSize={"md"}
         >
-          Choose a file
+          Upload an Image
         </StatLabel>
         <Input
           ref={register}
@@ -29,7 +52,10 @@ export const FileInput = ({ register }: { register: any }) => {
           opacity={0}
           pos={"absolute"}
           type="file"
+          w="175px"
         />
+
+        {watchedImage !== undefined && <Input value={uploadedImgUrl} />}
       </Flex>
     </Flex>
   );
