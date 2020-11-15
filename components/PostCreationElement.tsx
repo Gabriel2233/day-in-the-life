@@ -4,7 +4,7 @@ import { DropzoneArea } from "./DropzoneArea";
 import { FileInput } from "./FileInput";
 
 export const PostCreationElement = () => {
-  const { removeImage, selectedFileUrl, register } = usePost();
+  const { removeImage, coverImgUrl, register } = usePost();
 
   return (
     <Flex
@@ -22,7 +22,7 @@ export const PostCreationElement = () => {
         <DropzoneArea />
 
         <Button
-          d={selectedFileUrl === "" ? "none" : "block"}
+          d={coverImgUrl === "" ? "none" : "block"}
           color="red.500"
           borderColor="red.500"
           borderWidth={2}
@@ -36,6 +36,7 @@ export const PostCreationElement = () => {
       </Flex>
 
       <Input
+        py={8}
         border={0}
         placeholder="Title Here"
         fontSize="3rem"
@@ -47,6 +48,7 @@ export const PostCreationElement = () => {
       />
 
       <Input
+        p={2}
         border={0}
         my={4}
         placeholder="Write four tags that match your post..."
@@ -60,9 +62,11 @@ export const PostCreationElement = () => {
       <FileInput register={register} />
 
       <Textarea
+        p={6}
+        minH="300px"
+        overflowY="auto"
         border={0}
         resize="none"
-        overflowY="hidden"
         placeholder="Write your post here..."
         _placeholder={{ color: "gray.600" }}
         _focus={{ outline: "none" }}

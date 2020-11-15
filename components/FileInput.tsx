@@ -1,15 +1,28 @@
-import { Flex, Input, StatLabel } from "@chakra-ui/core";
+import {
+  Flex,
+  Button,
+  Input,
+  StatLabel,
+  useClipboard,
+  Spinner,
+} from "@chakra-ui/core";
 import { useEffect, useState } from "react";
 import { usePost } from "../contexts/PostContext";
 
 export const FileInput = ({ register }: { register: any }) => {
-  const { uploadImage, watchedImage } = usePost();
+  const { uploadImage, watchedCoverImage, uploadLoading } = usePost();
 
   const [uploadedImgUrl, setUploadedImgUrl] = useState<string>("");
 
+  const { value, onCopy, hasCopied } = useClipboard(
+    `[Alt Test]!(${uploadedImgUrl})`
+  );
+
+  const watchedLoading = watchedCoverImage === undefined;
+
   const uploadNewContentImage = async () => {
     try {
-      const res = await uploadImage(watchedImage);
+      const res = await uploadImage(watchedCoverImage);
 
       setUploadedImgUrl(res);
     } catch (err) {
@@ -18,15 +31,15 @@ export const FileInput = ({ register }: { register: any }) => {
   };
 
   useEffect(() => {
-    if (watchedImage !== undefined) {
+    if (!watchedLoading && watchedCoverImage.length !== 0) {
       uploadNewContentImage();
     }
-  }, [watchedImage]);
+  }, [watchedCoverImage]);
 
   return (
-    <Flex>
+    <Flex w="full">
       <Flex
-        align="center"
+        align="start"
         justify="center"
         flexDir="column"
         width="full"
@@ -43,7 +56,7 @@ export const FileInput = ({ register }: { register: any }) => {
           mr={8}
           fontSize={"md"}
         >
-          Upload an Image
+          {uploadLoading ? <Spinner /> : "Upload an Image"}
         </StatLabel>
         <Input
           ref={register}
@@ -55,7 +68,14 @@ export const FileInput = ({ register }: { register: any }) => {
           w="175px"
         />
 
-        {watchedImage !== undefined && <Input value={uploadedImgUrl} />}
+        {uploadLoading !== true && watchedCoverImage !== undefined && (
+          <Flex w="full" align="center" justify="start" my={4}>
+            <Input value={value} w="60%" isReadOnly={true} />
+            <Button onClick={onCopy} mx={4}>
+              {hasCopied ? "Copied" : "Copy"}
+            </Button>
+          </Flex>
+        )}
       </Flex>
     </Flex>
   );

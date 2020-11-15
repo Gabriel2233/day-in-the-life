@@ -11,6 +11,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import firebase from "../lib/firebase";
 import "firebase/storage";
 
+type IFullPostData = {
+  title: string;
+  tags: string;
+  content: string;
+};
+
 type FormValues = {
   title: string;
   tags: string;
@@ -18,34 +24,28 @@ type FormValues = {
 };
 
 type IPostContext = {
-  selectedFileUrl: string;
-  onDrop(acceptedFiles: File[]): Promise<void>;
+  coverImgUrl: string;
+  onDrop(files: File[]): Promise<void>;
+  togglePreview(): any;
   removeImage(): void;
   uploadImage(acceptedFiles: File[]): Promise<string>;
   createPost(data: FormValues): Promise<void>;
   errors: FieldErrors;
   handleSubmit(fn: (data: FormValues) => Promise<void>): any;
   register: any;
-  watchedImage: File[] | undefined;
+  watchedCoverImage: File[] | undefined;
+  uploadLoading: boolean;
+  fullPostData: IFullPostData;
+  isPreviewing: boolean;
 };
 
 const validationSchema = yup.object().shape({
-  title: yup.string().required().min(8).max(33),
+  title: yup.string().required().min(4).max(33),
   tags: yup.string().required(),
   content: yup.string().required(),
 });
 
-const PostContext = createContext<IPostContext>({
-  selectedFileUrl: "",
-  onDrop: async () => {},
-  removeImage: () => {},
-  uploadImage: async () => "",
-  createPost: async () => {},
-  errors: {},
-  handleSubmit: () => {},
-  register: null,
-  watchedImage: undefined,
-});
+const PostContext = createContext<IPostContext>({} as IPostContext);
 
 export const PostContextProvider = ({ children }: { children: ReactNode }) => {
   const post: IPostContext = useProvidePost();
@@ -54,26 +54,43 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
 };
 
 const useProvidePost = () => {
-  const [selectedFileUrl, setSelectedFileUrl] = useState<string>("");
+  const [coverImgUrl, setCoverImgUrl] = useState<string>("");
+  const [uploadLoading, setUploadLoading] = useState<boolean>(false);
+
+  const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
+  const [fullPostData, setFullPostData] = useState(undefined);
 
   const { errors, handleSubmit, register, watch } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
-  const watchedImage = watch("image");
+  const watchedCoverImage = watch("image");
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
+  const onDrop = useCallback(async (files: File[]) => {
+    if (files) {
+      const file = files[0];
 
-    const url = URL.createObjectURL(file);
+      const url = URL.createObjectURL(file);
 
-    setSelectedFileUrl(url);
+      setCoverImgUrl(url);
+    }
   }, []);
 
-  const removeImage = () => setSelectedFileUrl("");
+  const togglePreview = () => {
+    if (isPreviewing) {
+      setIsPreviewing(false);
+    } else {
+      setIsPreviewing(true);
+      setFullPostData({
+        ...watch(["title", "tags", "content"]),
+      });
+    }
+  };
+
+  const removeImage = () => setCoverImgUrl("");
 
   const createPost = async (data: FormValues) => {
-    console.log(data, selectedFileUrl);
+    console.log(data, coverImgUrl);
   };
 
   const uploadImage = async (acceptedFiles: File[]) => {
@@ -81,25 +98,33 @@ const useProvidePost = () => {
     const fieldRef = storageRef.child(acceptedFiles[0].name);
 
     try {
+      setUploadLoading(true);
       const res = await fieldRef.put(acceptedFiles[0]);
       const storagedUrl = await res.ref.getDownloadURL();
 
-      return storagedUrl;
+      if (res.state === "success") {
+        setUploadLoading(false);
+        return storagedUrl;
+      }
     } catch (err) {
-      alert(err.message);
+      console.log(err);
     }
   };
 
   return {
-    selectedFileUrl,
+    coverImgUrl,
     uploadImage,
     onDrop,
+    togglePreview,
     removeImage,
     createPost,
     errors,
     handleSubmit,
     register,
-    watchedImage,
+    watchedCoverImage,
+    uploadLoading,
+    fullPostData,
+    isPreviewing,
   };
 };
 

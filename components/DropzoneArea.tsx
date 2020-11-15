@@ -4,7 +4,7 @@ import { FiImage } from "react-icons/fi";
 import { usePost } from "../contexts/PostContext";
 
 export const DropzoneArea = () => {
-  const { onDrop, selectedFileUrl: fileUrl } = usePost();
+  const { onDrop, coverImgUrl } = usePost();
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
@@ -19,9 +19,9 @@ export const DropzoneArea = () => {
       mb={8}
     >
       <Input {...getInputProps()} size="lg" w="full" h="250px" bg="red" />
-      {fileUrl ? (
+      {coverImgUrl !== "" ? (
         <Flex w="full" align="center" justify="center">
-          <Image src={fileUrl} alt="cover" w="full" h="full" />
+          <Image src={coverImgUrl} alt="cover" w="full" h="full" />
         </Flex>
       ) : (
         <Flex align="center" justify="center" flexDir="column" w="full">

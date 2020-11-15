@@ -13,11 +13,20 @@ import { PostCreationElement } from "../components/PostCreationElement";
 import { usePost } from "../contexts/PostContext";
 
 import { BsQuestion } from "react-icons/bs";
+import { isPrimitive } from "util";
+import { PreviewPost } from "../components/PreviewPost";
 
 export default function CreatePost() {
   const router = useRouter();
 
-  const { createPost, handleSubmit, errors } = usePost();
+  const {
+    createPost,
+    handleSubmit,
+    errors,
+    togglePreview,
+    isPreviewing,
+    fullPostData,
+  } = usePost();
 
   return (
     <Layout>
@@ -30,6 +39,7 @@ export default function CreatePost() {
           <Heading size="lg">Create a new Post</Heading>
 
           <Button
+            onClick={togglePreview}
             bg="white"
             rounded="4px"
             color="blue.500"
@@ -48,7 +58,7 @@ export default function CreatePost() {
           as="form"
           onSubmit={handleSubmit(createPost)}
         >
-          <PostCreationElement />
+          {isPreviewing ? <PreviewPost /> : <PostCreationElement />}
 
           <Flex w="90%" align="center" justify="space-between" my={10}>
             <IconButton
