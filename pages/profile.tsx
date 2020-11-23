@@ -8,14 +8,14 @@ import {
   TagIcon,
   TagLabel,
   Text,
-} from "@chakra-ui/core";
-import { Header } from "../components/Header";
-import { Layout } from "../components/Layout";
+} from '@chakra-ui/core';
+import { Header } from '../components/Header';
+import { Layout } from '../components/Layout';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
-import { useAuth } from "../lib/auth";
-import { ImGoogle, ImFacebook2 } from "react-icons/im";
+import { useAuth } from '../lib/auth';
+import { ImGoogle, ImFacebook2 } from 'react-icons/im';
 
 export default function Profile() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function Profile() {
 
   if (user == null) return <Spinner />;
 
-  const icon = user.provider === "google.com" ? ImGoogle : ImFacebook2;
+  const icon = user.provider === 'google.com' ? ImGoogle : ImFacebook2;
 
   return (
     <Layout>
@@ -40,7 +40,7 @@ export default function Profile() {
           justify="center"
           flexDir="column"
           background="white"
-          my={"6rem"}
+          my={'6rem'}
           borderWidth={2}
           borderColor="gray.100"
           rounded="8px"
@@ -75,7 +75,7 @@ export default function Profile() {
 
           <Button
             bg="red.500"
-            _hover={{ bg: "red.600" }}
+            _hover={{ bg: 'red.600' }}
             color="white"
             padding={4}
             rounded="4px"

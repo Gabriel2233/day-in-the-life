@@ -1,11 +1,9 @@
-import { Button, Flex, Heading } from "@chakra-ui/core";
-import { useRouter } from "next/router";
-import { Header } from "../components/Header";
-import { Layout } from "../components/Layout";
+import { Button, Flex, Heading } from '@chakra-ui/core';
+import { useRouter } from 'next/router';
 
-import { FiFacebook } from "react-icons/fi";
-import { FcGoogle } from "react-icons/fc";
-import { useAuth } from "../lib/auth";
+import { FiFacebook } from 'react-icons/fi';
+import { FcGoogle } from 'react-icons/fc';
+import { useAuth } from '../lib/auth';
 
 function Login() {
   const router = useRouter();
@@ -22,7 +20,7 @@ function Login() {
 
       <Flex
         w="full"
-        mt={"7rem"}
+        mt={'7rem'}
         align="center"
         justify="center"
         flexDir="column"
@@ -33,24 +31,24 @@ function Login() {
 
         <Button
           w="300px"
-          onClick={() => signinWithFacebook("/dashboard")}
+          onClick={() => signinWithFacebook('/profile')}
           p={8}
           backgroundColor="blue.600"
           color="white"
           fontWeight="medium"
           leftIcon={FiFacebook}
           mt={4}
-          _hover={{ bg: "blue.700" }}
+          _hover={{ bg: 'blue.700' }}
           _active={{
-            bg: "gray.800",
-            transform: "scale(0.95)",
+            bg: 'gray.800',
+            transform: 'scale(0.95)',
           }}
         >
           Continue with Facebook
         </Button>
         <Button
           w="300px"
-          onClick={() => signinWithGoogle("/dashboard")}
+          onClick={() => signinWithGoogle('/profile')}
           p={8}
           backgroundColor="white"
           color="gray.900"
@@ -58,10 +56,10 @@ function Login() {
           fontWeight="medium"
           leftIcon={FcGoogle}
           mt={4}
-          _hover={{ bg: "gray.100" }}
+          _hover={{ bg: 'gray.100' }}
           _active={{
-            bg: "gray.100",
-            transform: "scale(0.95)",
+            bg: 'gray.100',
+            transform: 'scale(0.95)',
           }}
         >
           Continue with Google

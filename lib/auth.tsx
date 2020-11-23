@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext, createContext } from "react";
-import Router from "next/router";
-import cookie from "js-cookie";
+import React, { useState, useEffect, useContext, createContext } from 'react';
+import Router from 'next/router';
+import cookie from 'js-cookie';
 
-import firebase from "./firebase";
+import firebase from './firebase';
 
 type AppUser = {
   uid: string;
@@ -21,13 +21,7 @@ type IAuthContext = {
   signOut(): Promise<void>;
 };
 
-const authContext = createContext<IAuthContext>({
-  user: null,
-  loading: false,
-  signinWithFacebook: async () => {},
-  signinWithGoogle: async () => {},
-  signOut: async () => {},
-});
+const authContext = createContext<IAuthContext>({} as IAuthContext);
 
 export function AuthProvider({ children }) {
   const auth = useProvideAuth();
@@ -51,7 +45,7 @@ function useProvideAuth() {
 
       setUser(user);
 
-      cookie.set("dil-auth", String(true), {
+      cookie.set('dil-auth', String(true), {
         expires: 1,
       });
 
@@ -59,7 +53,7 @@ function useProvideAuth() {
       return user;
     } else {
       setUser(false);
-      cookie.remove("dil-auth");
+      cookie.remove('dil-auth');
 
       setLoading(false);
       return false;
@@ -103,7 +97,7 @@ function useProvideAuth() {
   };
 
   const signOut = async () => {
-    Router.push("/");
+    Router.push('/');
 
     await firebase.auth().signOut();
 

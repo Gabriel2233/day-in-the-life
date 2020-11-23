@@ -1,7 +1,7 @@
-import { Flex, Icon } from "@chakra-ui/core";
-import { ReactNode } from "react";
+import { Flex, Icon } from '@chakra-ui/core';
+import { ReactNode } from 'react';
 
-import { BsFilePost } from "react-icons/bs";
+import { BsFilePost } from 'react-icons/bs';
 
 export const Header = ({ children }: { children: ReactNode }) => {
   return (

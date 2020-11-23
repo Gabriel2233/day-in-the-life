@@ -1,28 +1,11 @@
-import { Button, Flex, Heading, Text } from "@chakra-ui/core";
-import { Header } from "../components/Header";
-import { Layout } from "../components/Layout";
-import Typed from "typed.js";
-import { useEffect } from "react";
-import Link from "next/link";
+import { Button, Flex, Heading, Text } from '@chakra-ui/core';
+import { Header } from '../components/Header';
+import { Layout } from '../components/Layout';
+import Typed from 'typed.js';
+import { useEffect } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
-  useEffect(() => {
-    let typed = new Typed(".element", {
-      strings: [
-        "Are you into Sports?",
-        "Are you into Programming?",
-        "Are you into Health?",
-        "Are you into Cooking?",
-        "Are you into Engineering?",
-      ],
-      showCursor: false,
-      loop: true,
-      typeSpeed: 100,
-    });
-
-    return () => (typed = null);
-  }, []);
-
   return (
     <Layout>
       <Header>
@@ -31,7 +14,7 @@ export default function Home() {
             my={2}
             mx={6}
             bg="blue.500"
-            _hover={{ bg: "blue.400" }}
+            _hover={{ bg: 'blue.400' }}
             color="white"
           >
             Get Started
@@ -40,7 +23,7 @@ export default function Home() {
       </Header>
 
       <Flex
-        my={"4rem"}
+        my={'4rem'}
         align="center"
         justify="center"
         flexDir="column"
@@ -54,7 +37,9 @@ export default function Home() {
           mt={20}
           mb={4}
           px={8}
-        ></Heading>
+        >
+          Auth Example Template
+        </Heading>
         <Text
           fontSize="1.2rem"
           color="gray.800"
@@ -62,9 +47,8 @@ export default function Home() {
           px={8}
           textAlign="center"
         >
-          We can help you find your interests, hobbies and professional wills{" "}
-          <br />
-          doing what we all like, blogging
+          This is a sample app on how to authenticate users using Firebase
+          providers.
         </Text>
 
         <Link href="/login">
